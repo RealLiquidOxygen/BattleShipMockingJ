@@ -58,7 +58,7 @@ public class AssetLoader extends javax.swing.JFrame {
            
            //load mp3 talk file here. 
             
-            for (int i = 0 ; i <= numberOfTrashTalks; i++) {
+            for (int i = 0 ; i < numberOfTrashTalks; i++) {
             sounds.add(new MP3Player(new File(remainingString + i + ".mp3"))); //load the button sound
             progress = progress  + 2;
             setProgress(progress);
