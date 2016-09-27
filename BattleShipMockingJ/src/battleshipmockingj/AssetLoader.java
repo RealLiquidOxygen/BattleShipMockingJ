@@ -58,7 +58,7 @@ public class AssetLoader extends javax.swing.JFrame {
            
            //load mp3 talk file here. 
             
-            for (int i = 0 ; i < numberOfTrashTalks; i++) {
+            for (int i = 0 ; i <= numberOfTrashTalks; i++) {
             sounds.add(new MP3Player(new File(remainingString + i + ".mp3"))); //load the button sound
             progress = progress  + 2;
             setProgress(progress);
@@ -78,7 +78,7 @@ public class AssetLoader extends javax.swing.JFrame {
         @Override
         public void done() {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(7000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(AssetLoader.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -89,6 +89,7 @@ public class AssetLoader extends javax.swing.JFrame {
                 battleShipMainDisplay.setLocationRelativeTo(null);
                 battleShipMainDisplay.setVisible(true);
                 BattleShipMockingJ.loader.setVisible(false);
+                theme.stop();
             });
         }
         
@@ -99,7 +100,7 @@ public class AssetLoader extends javax.swing.JFrame {
      */
     public AssetLoader() { 
         
-       //set splash background to black 
+       //set splash background to black 4
         initComponents();
         this.getContentPane().setBackground(Color.black);
         
@@ -169,7 +170,7 @@ public class AssetLoader extends javax.swing.JFrame {
         jLabel1.setText("BattleShip Mocking J");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel2.setText("Version 1.0");
+        jLabel2.setText("Version 2.0");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel3.setText("Loading....");

@@ -5,6 +5,8 @@
  */
 package battleshipmockingj;
 
+import static battleshipmockingj.AssetLoader.remainingString;
+import jaco.mp3.player.MP3Player;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -32,6 +34,10 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
     private  ImageIcon defaultImage;
     private  ImageIcon currentImage;
     private boolean GameStatusStart = false; //game has not started 
+    int HitCount1 = 0;
+        int MissCount1 = 0;
+        int HitCount2 = 0;
+        int MissCount2 = 0;
     /**
      * Creates new form BattleShipMainDisplay
      */
@@ -55,6 +61,9 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
         FirstPlayer.setIcon(defaultImage); //default picture
         SecondPlayer.setIcon(defaultImage);
         
+        MP3Player hit=new MP3Player (new File(remainingString + "hit" + ".mp3"));
+        MP3Player miss=new MP3Player (new File(remainingString + "missed" + ".mp3"));
+        
         //add status listener to this
         firstPlayerStatusLabel.addMouseListener(new MouseAdapter(){
             @Override
@@ -64,12 +73,20 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
                     // pass who is playing
                     firstPlayerStatusLabel.setBackground(Color.red);
                     secondPlayerStatusLabel.setBackground(Color.green);
+                    if (GameStatusStart==true){
+                    player1Details.setText("<html><p>Hit Count: " + HitCount1 + "</p><p>Miss Count: " + ++MissCount1 + "</p></html>");
+                    miss.play();
+                    }
                     
                 } else if(e.getClickCount()==2){
                     //mock player here and pass who is playing
                     firstPlayerStatusLabel.setBackground(Color.red);
                     secondPlayerStatusLabel.setBackground(Color.green);
-                    SwearAtThePlayers();
+                    if (GameStatusStart==true){
+                        --MissCount1;
+                    player1Details.setText("<html><p>Hit Count: " + ++HitCount1 + "</p><p>Miss Count: " + MissCount1 + "</p></html>");
+                    hit.play();
+                    }
                  }
             }
         });
@@ -83,12 +100,20 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
                     // pass who is playing
                     firstPlayerStatusLabel.setBackground(Color.green);
                     secondPlayerStatusLabel.setBackground(Color.red);
-                    
+                    if (GameStatusStart==true){
+                    player2Details.setText("<html><p>Hit Count: " + HitCount2 + "</p><p>Miss Count: " + ++MissCount2  + "</p></html>");
+                    miss.play();
+                    }
                 } else if(e.getClickCount()==2){
                     //mock player here and pass who is playing
                     firstPlayerStatusLabel.setBackground(Color.green);
                     secondPlayerStatusLabel.setBackground(Color.red);
-                    SwearAtThePlayers();
+                    if (GameStatusStart==true) {
+                        --MissCount2;
+                    player2Details.setText("<html><p>Hit Count: " + ++HitCount2 + "</p><p>Miss Count: " + MissCount2  + "</p></html>");
+                    new MP3Player (new File(remainingString + "hit" + ".mp3")).play();
+                    hit.play();
+                    }
                  }
             }
         });
@@ -98,7 +123,13 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
     
      private void SwearAtThePlayers() {
                 SecureRandom scr = new SecureRandom();
-                 AssetLoader.sounds.get(scr.nextInt(25)).play();
+                
+                int guess = scr.nextInt(25);
+                
+                while (guess==0){
+                    guess = scr.nextInt(25);
+                }
+                 AssetLoader.sounds.get(guess).play();
             }
     
      public ArrayList LoadPlayerInfo(){
@@ -153,6 +184,9 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
         jLPlayer1 = new javax.swing.JLabel();
         jButtonStartGame = new javax.swing.JButton();
         jLabelTime = new javax.swing.JLabel();
+        player1Details = new javax.swing.JLabel();
+        player2Details = new javax.swing.JLabel();
+        jButtonSwear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BattleShip Mocking J");
@@ -218,7 +252,7 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 770, 340, 100));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 810, 260, 70));
 
         jTextAreaInstruction.setColumns(20);
         jTextAreaInstruction.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
@@ -257,6 +291,30 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
         jLabelTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTime.setText("00:00:00");
         getContentPane().add(jLabelTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 170, 270, 120));
+
+        player1Details.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        player1Details.setForeground(new java.awt.Color(0, 204, 51));
+        player1Details.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player1Details.setText("<html><p>Hit Count: 0</p><p>Miss Count: 0</p></html>");
+        player1Details.setToolTipText("");
+        getContentPane().add(player1Details, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 810, 180, 140));
+
+        player2Details.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        player2Details.setForeground(new java.awt.Color(0, 204, 51));
+        player2Details.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player2Details.setText("<html><p>Hit Count: 0</p><p>Miss Count: 0</p></html>");
+        player2Details.setToolTipText("");
+        getContentPane().add(player2Details, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 810, 180, 140));
+
+        jButtonSwear.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jButtonSwear.setForeground(new java.awt.Color(255, 51, 51));
+        jButtonSwear.setText("Swear");
+        jButtonSwear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSwearActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButtonSwear, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 750, 180, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -335,6 +393,11 @@ BattleShipHistory battHistory; //JFrame variable to help with making the JFrame 
       }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButtonSwearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSwearActionPerformed
+        // TODO add your handling code here:
+        SwearAtThePlayers();
+    }//GEN-LAST:event_jButtonSwearActionPerformed
+
     public static BattleShipMainDisplay battleShipMainDisplay;
     /**
      * @param args the command line arguments
@@ -380,12 +443,15 @@ BattleShipHistory battHistory; //JFrame variable to help with making the JFrame 
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonStartGame;
+    private javax.swing.JButton jButtonSwear;
     private javax.swing.JLabel jLPlayer1;
     private javax.swing.JLabel jLPlayer2;
     private javax.swing.JLabel jLabel1;
     public static javax.swing.JLabel jLabelTime;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTextArea jTextAreaInstruction;
+    private javax.swing.JLabel player1Details;
+    private javax.swing.JLabel player2Details;
     public javax.swing.JLabel secondPlayerStatusLabel;
     // End of variables declaration//GEN-END:variables
 
@@ -465,10 +531,10 @@ BattleShipHistory battHistory; //JFrame variable to help with making the JFrame 
             options[1]);//default button title
            
             if (result == JOptionPane.YES_OPTION){
-                appendToHistory(jLPlayer1.getText() + " beat " + jLPlayer2.getText() + " in " + jLabelTime.getText() + " on " + new Date());
+                appendToHistory(jLPlayer1.getText() + " beat " + jLPlayer2.getText() +"\nGame Details\n---------------\n1. Hit Count: " + HitCount1 + "\n2. Miss Count: " + MissCount1 + "\n in " + jLabelTime.getText() + " on " + new Date());
                  JOptionPane.showMessageDialog(this, "History saved", "BattleShip Mocking J", JOptionPane.INFORMATION_MESSAGE);
             } else if (result == JOptionPane.NO_OPTION){
-                appendToHistory(jLPlayer2.getText() + " beat " + jLPlayer1.getText() + " in " + jLabelTime.getText() + " on " + new Date());
+                appendToHistory(jLPlayer2.getText() + " beat " + jLPlayer1.getText() +"\nGame Details\n---------------\n1. Hit Count: " + HitCount2 + "\n2. Miss Count: " + MissCount2 + "\n in " + jLabelTime.getText() + " on " + new Date());
                 JOptionPane.showMessageDialog(this, "History saved", "BattleShip Mocking J", JOptionPane.INFORMATION_MESSAGE);
             } else if (result == JOptionPane.CANCEL_OPTION){
                  JOptionPane.showMessageDialog(this, "History not saved", "BattleShip Mocking J", JOptionPane.INFORMATION_MESSAGE);
@@ -488,6 +554,12 @@ BattleShipHistory battHistory; //JFrame variable to help with making the JFrame 
                 GameStatusStart = true; //game as started
                  firstPlayerStatusLabel.setBackground(Color.green);
                     secondPlayerStatusLabel.setBackground(Color.red);
+                     HitCount1 = 0;
+                         MissCount1 = 0;
+                         HitCount2 = 0;
+                         MissCount2 = 0;
+                        player1Details.setText("<html><p>Hit Count: " + "0" + "</p><p>Miss Count: " + "0"  + "</p></html>");
+                        player2Details.setText(player1Details.getText());
 
             } else { 
                 //reset game here
@@ -499,6 +571,13 @@ BattleShipHistory battHistory; //JFrame variable to help with making the JFrame 
                jButtonStartGame.setText("Start Game");
                 firstPlayerStatusLabel.setBackground(Color.white);
                     secondPlayerStatusLabel.setBackground(Color.white);
+                      HitCount1 = 0;
+                         MissCount1 = 0;
+                         HitCount2 = 0;
+                         MissCount2 = 0;
+                        player1Details.setText("<html><p>Hit Count: " + "0" + "</p><p>Miss Count: " + "0"  + "</p></html>");
+                        player2Details.setText(player1Details.getText());
+                        
                stopTimer();
                 
             }
@@ -519,6 +598,12 @@ BattleShipHistory battHistory; //JFrame variable to help with making the JFrame 
                 GameStatusStart = true; //game as started
                  firstPlayerStatusLabel.setBackground(Color.green);
                     secondPlayerStatusLabel.setBackground(Color.red);
+                     HitCount1 = 0;
+                         MissCount1 = 0;
+                         HitCount2 = 0;
+                         MissCount2 = 0;
+                        player1Details.setText("<html><p>Hit Count: " + "0" + "</p><p>Miss Count: " + "0"  + "</p></html>");
+                        player2Details.setText(player1Details.getText());
 
             } else { 
                 //reset game here
@@ -530,6 +615,12 @@ BattleShipHistory battHistory; //JFrame variable to help with making the JFrame 
                jButtonStartGame.setText("Start Game");
                 firstPlayerStatusLabel.setBackground(Color.white);
                     secondPlayerStatusLabel.setBackground(Color.white);
+                     HitCount1 = 0;
+                         MissCount1 = 0;
+                         HitCount2 = 0;
+                         MissCount2 = 0;
+                        player1Details.setText("<html><p>Hit Count: " + "0" + "</p><p>Miss Count: " + "0"  + "</p></html>");
+                        player2Details.setText(player1Details.getText());
                stopTimer();
                 
             }

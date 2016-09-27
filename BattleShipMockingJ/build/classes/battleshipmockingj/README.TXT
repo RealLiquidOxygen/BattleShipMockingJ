@@ -1,4 +1,4 @@
-BIG-ME SOFTWARES 
+BIG-ME SOFTWARE 
 BATTLESHIP MOCKINGJ - BATTLESHIP GAME TALLY SOFTWARE
 =======================================================
 
