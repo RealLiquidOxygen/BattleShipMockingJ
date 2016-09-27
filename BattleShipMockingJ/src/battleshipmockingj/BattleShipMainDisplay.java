@@ -75,7 +75,7 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
                     secondPlayerStatusLabel.setBackground(Color.green);
                     if (GameStatusStart==true){
                     player1Details.setText("<html><p>Hit Count: " + HitCount1 + "</p><p>Miss Count: " + ++MissCount1 + "</p></html>");
-                    miss.play();
+                    //miss.play();
                     }
                     
                 } else if(e.getClickCount()==2){
@@ -102,7 +102,7 @@ public class BattleShipMainDisplay extends javax.swing.JFrame {
                     secondPlayerStatusLabel.setBackground(Color.red);
                     if (GameStatusStart==true){
                     player2Details.setText("<html><p>Hit Count: " + HitCount2 + "</p><p>Miss Count: " + ++MissCount2  + "</p></html>");
-                    miss.play();
+                    //miss.play();
                     }
                 } else if(e.getClickCount()==2){
                     //mock player here and pass who is playing
